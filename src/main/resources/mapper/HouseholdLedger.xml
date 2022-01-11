@@ -16,7 +16,13 @@
       <if test="price != null">price = #{price},</if>
       <if test="description != null">description = #{description}</if>
     </set>
-    WHERE id = #{id} AND user_id = #{userId}
+    WHERE id = #{id} AND user_id = #{userId} AND is_deleted = false
+  </update>
+
+  <update id="deleteHouseholdLedger">
+    UPDATE household_ledgers
+    SET is_deleted = true
+    WHERE id = #{householdLedgerId} AND user_id = #{userId} AND is_deleted = false
   </update>
 
 </mapper>

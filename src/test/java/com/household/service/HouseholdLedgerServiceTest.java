@@ -53,13 +53,30 @@ class HouseholdLedgerServiceTest {
     public void updateHouseholdLedgerTestWhenSuccess() {
         when(householdLedgerMapper.updateHouseholdLedger(any(HouseholdLedger.class))).thenReturn(1);
         householdLedgerService.updateHouseholdLedger(householdLedgerRequestDto, 1L, 2L);
+        verify(householdLedgerMapper).updateHouseholdLedger(any(HouseholdLedger.class));
     }
 
     @Test
-    @DisplayName("가계부 수정에 실패합니다. :입력과 일치하는 가계부가 존재하지 않습니다.")
+    @DisplayName("가계부 수정에 실패합니다. :일치하는 가계부가 존재하지 않습니다.")
     public void updateHouseholdLedgerTestWhenFail() {
         when(householdLedgerMapper.updateHouseholdLedger(any(HouseholdLedger.class))).thenReturn(0);
         assertThrows(NotFoundException.class,
             () -> householdLedgerService.updateHouseholdLedger(householdLedgerRequestDto, 1L, 2L));
+    }
+
+    @Test
+    @DisplayName("가계부 삭제에 성공합니다.")
+    public void deleteHouseholdLedgerTestWhenSuccess() {
+        when(householdLedgerMapper.deleteHouseholdLedger(1L, 2L)).thenReturn(1);
+        householdLedgerService.deleteHouseholdLedger(1L, 2L);
+        verify(householdLedgerMapper).deleteHouseholdLedger(1L, 2L);
+    }
+
+    @Test
+    @DisplayName("가계부 삭제에 실패합니다. :일치하는 가계부가 존재하지 않습니다.")
+    public void deleteHouseholdLedgerTestWhenFail() {
+        when(householdLedgerMapper.deleteHouseholdLedger(1L, 2L)).thenReturn(0);
+        assertThrows(NotFoundException.class,
+            () -> householdLedgerService.deleteHouseholdLedger(1L, 2L));
     }
 }
