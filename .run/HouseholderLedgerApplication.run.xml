@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="HouseholdLedgerApplication" type="Application" factoryName="Application" activateToolWindowBeforeRun="false" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="com.household.HouseholdLedgerApplication" />
+    <module name="household-ledger.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.household.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
