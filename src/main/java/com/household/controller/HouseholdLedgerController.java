@@ -7,7 +7,9 @@ import com.household.service.HouseholdLedgerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +25,21 @@ public class HouseholdLedgerController {
     @PostMapping
     public ResponseEntity<Void> createHouseholdLedger(
         @RequestBody HouseholdLedgerRequestDto householdLedgerRequestDto,
-        @CurrentUserId Long currentUserId) {
+        @CurrentUserId Long currentUserId
+    ) {
         householdLedgerService.createHouseholdLedger(householdLedgerRequestDto, currentUserId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @LoginCheck
+    @PutMapping("/householdLedgerId")
+    public ResponseEntity<Void> createHouseholdLedger(
+        @RequestBody HouseholdLedgerRequestDto householdLedgerRequestDto,
+        @PathVariable("householdLedgerId") Long householdLedgerId,
+        @CurrentUserId Long currentUserId
+    ) {
+        householdLedgerService.updateHouseholdLedger(householdLedgerRequestDto, currentUserId,
+            householdLedgerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -17,6 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class HouseholdLedgerRequestDto {
 
+    private Long id;
+    private Long userId;
+
     @Min(0)
     @NotBlank
     private BigDecimal price;
@@ -26,6 +29,8 @@ public class HouseholdLedgerRequestDto {
 
     public HouseholdLedger toEntity() {
         return HouseholdLedger.builder()
+            .id(id)
+            .userId(userId)
             .price(price)
             .description(description)
             .build();
