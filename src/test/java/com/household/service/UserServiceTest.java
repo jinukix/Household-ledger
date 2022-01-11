@@ -38,7 +38,7 @@ class UserServiceTest {
     User user;
 
     @BeforeEach
-    public void makeUser() {
+    public void beforeEach() {
         userRequestDto = UserRequestDto.builder()
             .email("email@email.com")
             .password("password")
