@@ -1,5 +1,6 @@
 package com.household.controller;
 
+import com.household.model.dto.LoginRequestDto;
 import com.household.model.dto.UserRequestDto;
 import com.household.service.UserService;
 import javax.validation.Valid;
@@ -23,5 +24,12 @@ public class UserController {
         @Valid @RequestBody UserRequestDto userRequestDto) {
         userService.signUp(userRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+        @Valid @RequestBody LoginRequestDto loginRequestDto) {
+        String token = userService.login(loginRequestDto);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
