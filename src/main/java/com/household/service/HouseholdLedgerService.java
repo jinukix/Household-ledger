@@ -27,7 +27,16 @@ public class HouseholdLedgerService {
         int updateCount = householdLedgerMapper.updateHouseholdLedger(
             householdLedgerRequestDto.toEntity());
         if (updateCount == 0) {
-            throw new NotFoundException("This Household ledger not found Exception");
+            throw new NotFoundException("This household ledger not found exception");
+        }
+    }
+
+    public void deleteHouseholdLedger(Long currentUserId, Long householdLedgerId) {
+        int deleteCount = householdLedgerMapper.deleteHouseholdLedger(currentUserId,
+            householdLedgerId);
+
+        if (deleteCount == 0) {
+            throw new NotFoundException("This household ledger not found exception");
         }
     }
 }

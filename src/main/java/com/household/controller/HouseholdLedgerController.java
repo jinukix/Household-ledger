@@ -7,6 +7,7 @@ import com.household.service.HouseholdLedgerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,8 +33,8 @@ public class HouseholdLedgerController {
     }
 
     @LoginCheck
-    @PutMapping("/householdLedgerId")
-    public ResponseEntity<Void> createHouseholdLedger(
+    @PutMapping("/{householdLedgerId}")
+    public ResponseEntity<Void> updateHouseholdLedger(
         @RequestBody HouseholdLedgerRequestDto householdLedgerRequestDto,
         @PathVariable("householdLedgerId") Long householdLedgerId,
         @CurrentUserId Long currentUserId
@@ -41,5 +42,15 @@ public class HouseholdLedgerController {
         householdLedgerService.updateHouseholdLedger(householdLedgerRequestDto, currentUserId,
             householdLedgerId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @LoginCheck
+    @DeleteMapping("/{householdLedgerId}")
+    public ResponseEntity<Void> deleteHouseholdLedger(
+        @PathVariable("householdLedgerId") Long householdLedgerId,
+        @CurrentUserId Long currentUserId
+    ) {
+        householdLedgerService.deleteHouseholdLedger(currentUserId, householdLedgerId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
