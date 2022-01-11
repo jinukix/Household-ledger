@@ -7,17 +7,19 @@ import java.time.Duration;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class JWTService {
+
+    private final String USER_KEY = "userId";
 
     @Value("${JWT.ISSUER}")
     private String ISSUER;
 
     @Value("${JWT.SECRET}")
     private String SECRET;
-
-    private final String USER_KEY = "userId";
 
     public String createToken(final long userId) {
         Date nowDate = new Date();
@@ -32,15 +34,19 @@ public class JWTService {
             .compact();
     }
 
-    public Long parseJwtToken(String token) {
+    public Long loginAuth() {
+        ServletRequestAttributes requestAttributes =
+            (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+        String token = requestAttributes.getRequest().getHeader("Authorization");
         if (token == null || !token.startsWith("Bearer ")) {
             throw new IllegalArgumentException();
         }
 
-        return (Long) Jwts.parser()
+        return ((Number) Jwts.parser()
             .setSigningKey(SECRET)
             .parseClaimsJws(token.substring("Bearer ".length()))
             .getBody()
-            .get(USER_KEY);
+            .get(USER_KEY)).longValue();
     }
 }
