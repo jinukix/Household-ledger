@@ -1,15 +1,18 @@
 package com.household.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.household.exception.DuplicatedException;
+import com.household.exception.NotFoundException;
 import com.household.mapper.UserMapper;
+import com.household.model.dto.LoginRequestDto;
 import com.household.model.dto.UserRequestDto;
 import com.household.model.entity.User;
 import com.household.utils.PasswordEncrypt;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,17 +24,33 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-    @Mock
-    UserMapper userMapper;
-
     @InjectMocks
     UserService userService;
 
+    @Mock
+    UserMapper userMapper;
+
+    @Mock
+    JWTService jwtService;
+
     UserRequestDto userRequestDto;
+    LoginRequestDto loginRequestDto;
+    User user;
 
     @BeforeEach
     public void makeUser() {
         userRequestDto = UserRequestDto.builder()
+            .email("email@email.com")
+            .password("password")
+            .build();
+
+        loginRequestDto = LoginRequestDto.builder()
+            .email("email@email.com")
+            .password("password")
+            .build();
+
+        user = User.builder()
+            .id(1L)
             .email("email@email.com")
             .password(PasswordEncrypt.encrypt("password"))
             .build();
@@ -52,5 +71,26 @@ class UserServiceTest {
         when(userMapper.isExistsEmail(userRequestDto.getEmail())).thenReturn(true);
         assertThrows(DuplicatedException.class, () -> userService.signUp(userRequestDto));
         verify(userMapper).isExistsEmail(userRequestDto.getEmail());
+    }
+
+    @Test
+    @DisplayName("로그인에 성공합니다.")
+    public void loginTestWhenSuccess() {
+        when(userMapper.selectUserByEmail(loginRequestDto.getEmail())).thenReturn(
+            Optional.of(user));
+        when(jwtService.createToken(user.getId())).thenReturn("token");
+
+        userService.login(loginRequestDto);
+        verify(userMapper).selectUserByEmail(loginRequestDto.getEmail());
+        verify(jwtService).createToken(user.getId());
+    }
+
+    @Test
+    @DisplayName("로그인에 실패합니다 :존재하지 않는 이메일.")
+    public void loginTestWhenFail() {
+        when(userMapper.selectUserByEmail(loginRequestDto.getEmail())).thenReturn(
+            Optional.empty());
+        assertThrows(NotFoundException.class, () -> userService.login(loginRequestDto));
+        verify(userMapper).selectUserByEmail(loginRequestDto.getEmail());
     }
 }
