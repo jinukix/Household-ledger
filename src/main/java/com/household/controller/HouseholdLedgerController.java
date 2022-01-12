@@ -3,16 +3,21 @@ package com.household.controller;
 import com.household.annotation.CurrentUserId;
 import com.household.annotation.LoginCheck;
 import com.household.model.dto.HouseholdLedgerRequestDto;
+import com.household.model.dto.HouseholdLedgerResponseDto;
+import com.household.model.dto.PageInfo;
+import com.household.model.dto.PageOption;
 import com.household.service.HouseholdLedgerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/household_ledgers")
@@ -21,6 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class HouseholdLedgerController {
 
     private final HouseholdLedgerService householdLedgerService;
+
+    @LoginCheck
+    @GetMapping
+    public ResponseEntity<PageInfo<HouseholdLedgerResponseDto>> getHouseholdLedgers(
+        @CurrentUserId Long currentUserId, @RequestParam(required = false) Integer page) {
+        PageOption pageOption = new PageOption(page);
+        PageInfo<HouseholdLedgerResponseDto> householdLedgers = householdLedgerService.getHouseholdLedgers(
+            currentUserId, pageOption);
+        return new ResponseEntity<>(householdLedgers, HttpStatus.OK);
+    }
 
     @LoginCheck
     @PostMapping

@@ -3,6 +3,10 @@ package com.household.service;
 import com.household.exception.NotFoundException;
 import com.household.mapper.HouseholdLedgerMapper;
 import com.household.model.dto.HouseholdLedgerRequestDto;
+import com.household.model.dto.HouseholdLedgerResponseDto;
+import com.household.model.dto.PageInfo;
+import com.household.model.dto.PageOption;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +15,14 @@ import org.springframework.stereotype.Service;
 public class HouseholdLedgerService {
 
     private final HouseholdLedgerMapper householdLedgerMapper;
+
+    public PageInfo<HouseholdLedgerResponseDto> getHouseholdLedgers(Long currentUserId,
+        PageOption pageOption) {
+        List<HouseholdLedgerResponseDto> householdLedgers = householdLedgerMapper.selectHouseholdLedgersByUserId(
+            currentUserId, pageOption);
+        Long totalCount = householdLedgerMapper.selectHouseholdLedgerCountByUserId(currentUserId);
+        return new PageInfo<>(totalCount, householdLedgers);
+    }
 
     public void createHouseholdLedger(HouseholdLedgerRequestDto householdLedgerRequestDto,
         Long userId) {
