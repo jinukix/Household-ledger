@@ -48,6 +48,17 @@ public class HouseholdLedgerController {
     }
 
     @LoginCheck
+    @GetMapping("/{householdLedgerId}")
+    public ResponseEntity<HouseholdLedgerResponseDto> getHouseholdLedger(
+        @PathVariable("householdLedgerId") Long householdLedgerId,
+        @CurrentUserId Long currentUserId
+    ) {
+        HouseholdLedgerResponseDto householdLedgerResponseDto = householdLedgerService.getHouseholdLedger(
+            currentUserId, householdLedgerId);
+        return new ResponseEntity<>(householdLedgerResponseDto, HttpStatus.OK);
+    }
+
+    @LoginCheck
     @PutMapping("/{householdLedgerId}")
     public ResponseEntity<Void> updateHouseholdLedger(
         @RequestBody HouseholdLedgerRequestDto householdLedgerRequestDto,
