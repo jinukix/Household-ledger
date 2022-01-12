@@ -5,6 +5,19 @@
 
 <mapper namespace="com.household.mapper.HouseholdLedgerMapper">
 
+  <select id="selectHouseholdLedgersByUserId" resultType="com.household.model.dto.HouseholdLedgerResponseDto">
+    SELECT id, price, description
+    FROM household_ledgers
+    WHERE user_id = #{userId} AND is_deleted = false
+    LIMIT #{pageOption.offset}, #{pageOption.limit}
+  </select>
+
+  <select id="selectHouseholdLedgerCountByUserId" resultType="long">
+    SELECT COUNT(*)
+    FROM household_ledgers
+    WHERE user_id = #{userId} AND is_deleted = false
+  </select>
+
   <insert id="insertHouseholdLedger">
     INSERT INTO household_ledgers (user_id, price, description)
     VALUES (#{userId}, #{price}, #{description})

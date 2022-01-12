@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import com.household.exception.NotFoundException;
 import com.household.mapper.HouseholdLedgerMapper;
 import com.household.model.dto.HouseholdLedgerRequestDto;
+import com.household.model.dto.PageOption;
 import com.household.model.entity.HouseholdLedger;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,15 @@ class HouseholdLedgerServiceTest {
             .description("메모장")
             .build();
 
+    }
+
+    @Test
+    @DisplayName("가계부 목록 조회에 성공합니다.")
+    public void getHouseholdLedgersTestWhenSuccess() {
+        PageOption pageOption = new PageOption(1);
+        householdLedgerService.getHouseholdLedgers(1L, pageOption);
+        verify(householdLedgerMapper).selectHouseholdLedgersByUserId(1L, pageOption);
+        verify(householdLedgerMapper).selectHouseholdLedgerCountByUserId(1L);
     }
 
     @Test
