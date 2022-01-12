@@ -4,6 +4,7 @@ import com.household.model.dto.HouseholdLedgerResponseDto;
 import com.household.model.dto.PageOption;
 import com.household.model.entity.HouseholdLedger;
 import java.util.List;
+import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,5 +21,8 @@ public interface HouseholdLedgerMapper {
     int updateHouseholdLedger(HouseholdLedger householdLedger);
 
     int deleteHouseholdLedger(@Param("userId") Long userId,
+        @Param("householdLedgerId") Long householdLedgerId);
+
+    Optional<HouseholdLedgerResponseDto> selectHouseholdLedger(@Param("userId") Long userId,
         @Param("householdLedgerId") Long householdLedgerId);
 }

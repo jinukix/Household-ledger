@@ -18,6 +18,12 @@
     WHERE user_id = #{userId} AND is_deleted = false
   </select>
 
+  <select id="selectHouseholdLedger" resultType="com.household.model.dto.HouseholdLedgerResponseDto">
+    SELECT id, price, description
+    FROM household_ledgers
+    WHERE id = #{householdLedgerId} AND user_id = #{userId} AND is_deleted = false
+  </select>
+
   <insert id="insertHouseholdLedger">
     INSERT INTO household_ledgers (user_id, price, description)
     VALUES (#{userId}, #{price}, #{description})

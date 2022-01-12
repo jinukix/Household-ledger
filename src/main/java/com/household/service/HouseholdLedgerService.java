@@ -24,6 +24,12 @@ public class HouseholdLedgerService {
         return new PageInfo<>(totalCount, householdLedgers);
     }
 
+    public HouseholdLedgerResponseDto getHouseholdLedger(Long currentUserId,
+        Long householdLedgerId) {
+        return householdLedgerMapper.selectHouseholdLedger(currentUserId, householdLedgerId)
+            .orElseThrow(() -> new NotFoundException("Select not found household ledger"));
+    }
+
     public void createHouseholdLedger(HouseholdLedgerRequestDto householdLedgerRequestDto,
         Long userId) {
 

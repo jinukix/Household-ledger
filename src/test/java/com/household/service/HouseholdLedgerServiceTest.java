@@ -8,9 +8,11 @@ import static org.mockito.Mockito.when;
 import com.household.exception.NotFoundException;
 import com.household.mapper.HouseholdLedgerMapper;
 import com.household.model.dto.HouseholdLedgerRequestDto;
+import com.household.model.dto.HouseholdLedgerResponseDto;
 import com.household.model.dto.PageOption;
 import com.household.model.entity.HouseholdLedger;
 import java.math.BigDecimal;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +31,7 @@ class HouseholdLedgerServiceTest {
     HouseholdLedgerMapper householdLedgerMapper;
 
     HouseholdLedgerRequestDto householdLedgerRequestDto;
-
+    HouseholdLedgerResponseDto householdLedgerResponseDto;
 
     @BeforeEach
     public void beforeEach() {
@@ -40,6 +42,29 @@ class HouseholdLedgerServiceTest {
             .description("메모장")
             .build();
 
+        householdLedgerResponseDto = HouseholdLedgerResponseDto.builder()
+            .id(2L)
+            .price(BigDecimal.valueOf(10.22))
+            .description("메모장")
+            .build();
+    }
+
+    @Test
+    @DisplayName("가계부 상세 조회에 성공합니다.")
+    public void getHouseholdLedgerTestWhenSuccess() {
+        when(householdLedgerMapper.selectHouseholdLedger(1L, 2L))
+            .thenReturn(Optional.of(householdLedgerResponseDto));
+        householdLedgerService.getHouseholdLedger(1L, 2L);
+        verify(householdLedgerMapper).selectHouseholdLedger(1L, 2L);
+    }
+
+    @Test
+    @DisplayName("가계부 상세 조회에 실패합니다. :존재하지 않는 가계부입니다.")
+    public void getHouseholdLedgerTestWhenFail() {
+        when(householdLedgerMapper.selectHouseholdLedger(1L, 2L))
+            .thenReturn(Optional.empty());
+        assertThrows(NotFoundException.class,
+            () -> householdLedgerService.getHouseholdLedger(1L, 2L));
     }
 
     @Test
