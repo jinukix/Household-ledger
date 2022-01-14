@@ -38,13 +38,13 @@ class HouseholdLedgerServiceTest {
         householdLedgerRequestDto = HouseholdLedgerRequestDto.builder()
             .id(2L)
             .userId(1L)
-            .price(1000L)
+            .price(BigDecimal.valueOf(1000L))
             .description("메모장")
             .build();
 
         householdLedgerResponseDto = HouseholdLedgerResponseDto.builder()
             .id(2L)
-            .price(1000L)
+            .price(BigDecimal.valueOf(1000L))
             .description("메모장")
             .build();
     }

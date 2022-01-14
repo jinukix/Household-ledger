@@ -23,7 +23,7 @@ public class HouseholdLedgerRequestDto {
 
     @Min(0)
     @NotNull
-    private Long price;
+    private BigDecimal price;
 
     @NotBlank
     private String description;
