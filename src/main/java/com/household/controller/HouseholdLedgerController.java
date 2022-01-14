@@ -7,6 +7,7 @@ import com.household.model.dto.HouseholdLedgerResponseDto;
 import com.household.model.dto.PageInfo;
 import com.household.model.dto.PageOption;
 import com.household.service.HouseholdLedgerService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class HouseholdLedgerController {
     @LoginCheck
     @PostMapping
     public ResponseEntity<Void> createHouseholdLedger(
-        @RequestBody HouseholdLedgerRequestDto householdLedgerRequestDto,
+        @Valid @RequestBody HouseholdLedgerRequestDto householdLedgerRequestDto,
         @CurrentUserId Long currentUserId
     ) {
         householdLedgerService.createHouseholdLedger(householdLedgerRequestDto, currentUserId);

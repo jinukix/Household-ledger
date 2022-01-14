@@ -1,6 +1,5 @@
 package com.household.model.entity;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +14,7 @@ public class HouseholdLedger {
 
     private Long id;
     private Long userId;
-    private BigDecimal price;
+    private Long price;
     private String description;
     private Boolean isDeleted;
     private Timestamp createdAt;

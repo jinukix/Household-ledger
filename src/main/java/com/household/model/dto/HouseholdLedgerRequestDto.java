@@ -4,6 +4,7 @@ import com.household.model.entity.HouseholdLedger;
 import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +22,8 @@ public class HouseholdLedgerRequestDto {
     private Long userId;
 
     @Min(0)
-    @NotBlank
-    private BigDecimal price;
+    @NotNull
+    private Long price;
 
     @NotBlank
     private String description;

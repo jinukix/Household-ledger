@@ -1,6 +1,5 @@
 package com.household.model.dto;
 
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +14,6 @@ import lombok.Setter;
 public class HouseholdLedgerResponseDto {
 
     private Long id;
-    private BigDecimal price;
+    private Long price;
     private String description;
 }
