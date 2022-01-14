@@ -2,3 +2,13 @@ spring:
   output:
     ansi:
       enabled: always
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-docker-container:3306/householdLedger?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 123123o
+
+JWT:
+  ISSUER: JINUK
+  SECRET: SECRET123
